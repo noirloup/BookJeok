@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>북적북적</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
+<style type="text/css">
+* { font-family: 'Noto Serif KR', serif; }
+table#outer th { 
+	background-color: #8181F7; 
+	-webkit-border-radius: 5px;
+}
+table#outer { 
+	border: 2px solid #8181F7;
+	-webkit-border-radius: 5px;
+}
+table input[type=submit] { 
+	background-color: #58ACFA; 
+	-webkit-border-radius: 10px; 
+}
+table input[type=reset] { 
+	background-color: #58ACFA; 
+	-webkit-border-radius: 10px; 
+}
+table#outer input[type=text] {
+	width: 350px;
+	border: 2px solid #8181F7;
+	-webkit-border-radius: 5px;
+	color: #8181F7;
+}
+table#outer input[type=number] {
+	border: 2px solid #8181F7;
+	-webkit-border-radius: 5px;
+	color: #8181F7;
+}
+table#outer input[type=tel] {
+	border: 2px solid #8181F7;
+	-webkit-border-radius: 5px;
+	color: #8181F7;
+}
+table#outer input[type=email] {
+	border: 2px solid #8181F7;
+	-webkit-border-radius: 5px;
+	color: #8181F7;
+}
+table#outer textarea {
+	border: 2px solid #8181F7;
+	-webkit-border-radius: 5px;
+	color: #8181F7;
+}
+table#outer input[type=password] {
+	width: 350px;
+	border: 2px solid #8181F7;
+	-webkit-border-radius: 5px;
+	color: #8181F7;
+}
+table#outer input[type=button] {
+	background-color: #8181F7;
+	-webkit-border-radius: 10px;
+}
+table#outer button {
+	background-color: #8181F7;
+	-webkit-border-radius: 10px;
+	margin-left: 5px;
+	width: 70px;
+}
+table#outer input[type=email] {
+	width: 350px;
+}
+table#outer input[type=textarea] {
+	width: 350px;
+	height: 50px;
+}
+table#outer input#maingo {
+	background-color: #58ACFA;
+	-webkit-border-radius: 10px;
+}
+</style>
+<script type="text/javascript" src="/bookjeok/resources/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+function validate(){
+	var pwdValue = document.getElementById("upwd").value;
+	var pwdValue2 = document.getElementById("upwd2").value;
+	
+	if(pwdValue !== pwdValue2){
+		alert("암호와 암호확인의 값이 일치하지 않습니다.");
+		document.getElementById("upwd2").value = "";
+		document.getElementById("upwd").select();
+		return false;
+	}
+	
+	return true;
+}
+
+function dupIDCheck(){
+	$.ajax({
+		url: "/bookjeok/udupidcheck",
+		type: "post",
+		data: {userid: $("#userid").val()},
+		success: function(data){
+			console.log("success : " + data);
+			if(data == "ok"){
+				alert("사용 가능한 아이디입니다.");
+				$("#upwd").focus();
+			}else{
+				alert("이미 사용중인 아이디입니다.");
+				$("#userid").select();
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log("error : " + jqXHR + ", " 
+					+ textStatus + ", " + errorThrown);
+		}
+	});
+	
+	return false;
+}
+
+function dupNickCheck(){
+	$.ajax({
+		url: "/bookjeok/udupnickcheck",
+		type: "post",
+		data: {nickname: $("#nickname").val()},
+		success: function(data){
+			console.log("success : " + data);
+			if(data == "ok"){
+				alert("사용 가능한 닉네임입니다.");
+				$("#usernm").focus();
+			}else{
+				alert("이미 사용중인 닉네임입니다.");
+				$("#nickname").select();
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log("error : " + jqXHR + ", " 
+					+ textStatus + ", " + errorThrown);
+		}
+	});
+	
+	return false;
+}
+</script>
+</head>
+<body>
+<center>
+<h2 align="center" style="margin-bottom: 0px; color: #08088A;"><img src="/bookjeok/resources/bookjeok/bookjeok.png" onclick="javascript:location.href='/bookjeok/index.jsp'"><br>회원 가입</h2>
+<br>
+<form action="/bookjeok/uenroll" method="post" onsubmit="return validate();">
+<table id="outer" align="center" width="650" cellspacing="5" cellpadding="0" style="color: white;">
+	<tr><th colspan="2" style="text-align:center; font-size: 16pt;">회원정보를 입력해 주세요.<br>(* 표시는 필수입력 항목입니다.)</th></tr>
+	<tr><th width="150">* 아이디</th>
+		<td><input type="text" name="userid" id="userid" class="insert" required> &nbsp;
+			<input type="button" value="중복체크" onclick="return dupIDCheck();"></td></tr>
+	<tr><th width="150">* 암호</th>
+		<td><input type="password" name="userpwd" id="upwd" class="insert" required></td></tr>
+	<tr><th width="150">* 암호확인</th>
+		<td><input type="password" id="upwd2" class="insert" required></td></tr>
+	<tr><th width="150">* 닉네임</th>
+		<td><input type="text" name="nickname" id="nickname" class="insert" required> &nbsp;
+			<input type="button" value="중복체크" onclick="return dupNickCheck();"></td></tr>
+	<tr><th width="150">* 이름</th>
+		<td><input type="text" name="usernm" id="usernm" class="insert" required></td></tr>
+	<tr><th width="150">* 나이</th>
+		<td><input type="number" name="age" class="insert" required></td></tr>
+	<tr><th width="150">* 성별</th>
+		<td style="color: black;">
+			<input type="radio" name="gender" value="M"> 남자 &nbsp;
+			<input type="radio" name="gender" value="F"> 여자
+		</td></tr>
+	<tr><th width="150">* 전화번호</th>
+		<td><input type="tel" name="phone" class="insert" required> &nbsp; &nbsp;
+			<b style="color: black;">( - 없이 입력해주세요.)</b></td></tr>
+	<tr><th width="150">* 이메일</th>
+		<td><input type="email" name="email" class="insert" required></td></tr>
+	
+	<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+	<script>
+		/*  검색 단추를 누르면 팝업 레이어가 열리도록 설정한다. */
+		$(function(){
+			$("#postcodify_search_button").postcodifyPopUp();
+		});
+	</script>
+	
+	<tr><th width="150">우편번호</th>
+		<td><input type="text" name="post" class="postcodify_postcode5" size="6">
+			<button type="button" id="postcodify_search_button">검색</button></td></tr>
+	<tr><th width="150">도로명 주소</th>
+		<td><input type="text" name="address1" class="postcodify_address"></td></tr>
+	<tr><th width="150">상세 주소</th>
+		<td><input type="text" name="address2" class="postcodify_extra_info"></td></tr>
+	<tr><th width="150">소 개</th>
+		<td><textarea name="intro" rows="4" cols="35" size="200" class="insert"></textarea></td></tr>
+	<tr><th width="150">선호 장르</th>
+	<td>
+		<table width="500" style="color: #8181F7;">
+		<tr>
+			<td><input type="checkbox" name="preferred" value="소설"> 소설</td>
+			<td><input type="checkbox" name="preferred" value="경제/경영"> 경제/경영</td>
+			<td><input type="checkbox" name="preferred" value="자기계발"> 자기계발</td>
+			<td><input type="checkbox" name="preferred" value="시/에세이"> 시/에세이</td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" name="preferred" value="인문"> 인문</td>
+			<td><input type="checkbox" name="preferred" value="국어/외국어"> 국어/외국어</td>
+			<td><input type="checkbox" name="preferred" value="역사/풍속/신화"> 역사/풍속/신화</td>
+			<td><input type="checkbox" name="preferred" value="사회/정치/법"> 사회/정치/법</td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" name="preferred" value="가정/생활/요리"> 가정/생활/요리</td>
+			<td><input type="checkbox" name="preferred" value="여행/취미"> 여행/취미</td>
+			<td><input type="checkbox" name="preferred" value="건강/의학"> 건강/의학</td>
+			<td><input type="checkbox" name="preferred" value="기타 장르"> 기타 장르</td>
+		</tr>
+		</table>
+	</td></tr>
+	<tr height="35"><th colspan="2">
+		<input type="submit" value="가입하기"> &nbsp; 
+		<input type="reset" value="작성취소"> &nbsp;
+		<input type="button" id="maingo" value="메인으로" onclick="return moveMain()">
+	</th></tr>
+</table>
+</form>
+</center>
+</body>
+</html>

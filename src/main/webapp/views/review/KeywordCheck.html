@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>북적북적</title>
+<script type="text/javascript">
+function getCheckboxValue()  {
+	  // 선택된 목록 가져오기
+	  const query = 'input[name="keyword"]:checked';
+	  const selectedEls = 
+	      document.querySelectorAll(query);
+	  
+	  // 선택된 목록에서 value 찾기
+	  let result = '';
+	  selectedEls.forEach((el) => {
+	    result += el.value + ' ';
+	  });
+	  
+	  // 출력
+	   opener.document.getElementById("pcheck").value = result;
+	   window.close();
+	  
+	}
+	
+function count_ck(obj){
+	var chkbox = document.getElementsByName("keyword");
+	var chkCnt = 0;
+
+	for(var i=0; i<chkbox.length; i++){
+		if(chkbox[i].checked){
+			chkCnt++;
+		}
+	}
+	if(chkCnt>4){
+		alert("check NO");
+		obj.checked = false;
+		return false;
+	}
+}
+</script>
+</head>
+<body>
+<h2 align="center">키워드를 선택하세요</h2>
+	
+<table id="keywordcheck">
+	<tr>	
+		<td><input onClick="count_ck(this)" type="checkbox" name="keyword" value="keyword1" /> keyword1</td>
+		<td><input onClick="count_ck(this)" type="checkbox" name="keyword" value="keyword2" /> keyword2</td>
+		<td><input onClick="count_ck(this)" type="checkbox" name="keyword" value="keyword3" /> keyword3</td>
+	</tr>
+ 	<tr>
+		<td><input onClick="count_ck(this)" type="checkbox" name="keyword" value="keyword4" /> keyword4</td>
+		<td><input onClick="count_ck(this)" type="checkbox" name="keyword" value="keyword5" /> keyword5</td>
+		<td><input onClick="count_ck(this)" type="checkbox" name="keyword" value="keyword6" /> keyword6</td>
+	</tr>
+	<tr>
+		<td><input onClick="count_ck(this)" type="checkbox" name="keyword" value="keyword7" /> keyword7</td>
+		<td><input onClick="count_ck(this)" type="checkbox" name="keyword" value="keyword8" /> keyword8</td>
+		<td><input onClick="count_ck(this)" type="checkbox" name="keyword" value="keyword9" /> keyword9</td>
+	</tr>
+	<tr><th colspan="2">
+		<button onclick='getCheckboxValue()'>확인</button>
+		<button onclick="window.close()">닫기</button>
+	</th></tr>
+<div id='result'></div>
+</table>	
+</body>
+</html>
+
+
